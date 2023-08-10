@@ -22,7 +22,7 @@ class Breakout():
       #screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
       gamestart=pygame.image.load("GAMESTART.png").convert()
-      gamestartrect=gamestart.get_rect()
+      gamestartrect=gamestart.get_rect() #GAMESTART 화면 보여주기
 
       paddle = pygame.image.load("stick.png").convert()
       paddlerect = paddle.get_rect()#막대기 만들기
@@ -32,7 +32,7 @@ class Breakout():
       ballrect = ball.get_rect()#공 만들기
 
       pong = pygame.mixer.Sound('Blip_1-Surround-147.wav')
-      pong.set_volume(10)
+      pong.set_volume(10)#게임 브금
       
       wall = Wall()           #벽돌
       wall.build_wall(width)  #벽돌 길이=맵길이
@@ -55,17 +55,17 @@ class Breakout():
          clock.tick(60)
          # 키 입력
          for event in pygame.event.get():
-               if event.type == pygame.QUIT:
+               if event.type == pygame.QUIT:#종료 버튼
                   pygame.exit()
                   sys.exit()
-               if event.type == pygame.KEYDOWN:
+               if event.type == pygame.KEYDOWN:#ESC 키
                   if event.key == pygame.K_ESCAPE:
                       sys.exit()
-                  if event.key == pygame.K_LEFT:                        
+                  if event.key == pygame.K_LEFT:#← 버튼                   
                      paddlerect = paddlerect.move(-paddle_speed, 0)     
                      if (paddlerect.left < 0):                           
                            paddlerect.left = 0      
-                  if event.key == pygame.K_RIGHT:                    
+                  if event.key == pygame.K_RIGHT:#→ 버튼              
                      paddlerect = paddlerect.move(paddle_speed, 0)
                      if (paddlerect.right > width):                            
                            paddlerect.right = width
@@ -121,7 +121,7 @@ class Breakout():
                   msgrect = msgrect.move(width / 2 - (msgrect.center[0]), height / 3)#게임오버 메시지 위치
                   screen.blit(msg, msgrect)
                   pygame.display.flip()
-                  #점수 저장
+                  #점수 파일로 저장
                   f=open("점수.txt","a")
                   f.write(strftime("%Y/%D %I:%M:%S",localtime()))
                   f.write("에 플레이한 플레이어의 점수는")
@@ -144,7 +144,7 @@ class Breakout():
                               if event.key == pygame.K_ESCAPE:
                                  pygame.exit()
                                  sys.exit()
-                              if not (event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
+                              if not (event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):#재시작 할려면 ← 또는 → 클릭
                                  restart = True
                      if restart:#죽고 재시작
                            screen.fill(black)
@@ -175,12 +175,12 @@ class Breakout():
          lifetext = pygame.font.Font(None,40).render(str(lives), True, (0,255,0), black)#생명력
          lifetextrect = lifetext.get_rect()
          lifetextrect = lifetextrect.move(width/2 - lifetextrect.right, 0)
-         screen.blit(lifetext, lifetextrect)
+         screen.blit(lifetext, lifetextrect)#화면에 생명력 배치
          
          scoretext = pygame.font.Font(None,40).render(str(score), True, (0,255,0), black)#점수
          scoretextrect = scoretext.get_rect()
          scoretextrect = scoretextrect.move(width - scoretextrect.right, 0)
-         screen.blit(scoretext, scoretextrect)
+         screen.blit(scoretext, scoretextrect)#화면에 점수 배치
          
          for i in range(0, len(wall.brickrect)):
                screen.blit(wall.brick, wall.brickrect[i])    
@@ -203,12 +203,12 @@ class Wall():
         brickrect = self.brick.get_rect()#벽돌 그리기
         self.bricklength = brickrect.right - brickrect.left       
         self.brickheight = brickrect.bottom - brickrect.top             
-    def build_wall(self, width):        
+    def build_wall(self, width):#화면에 벽돌 그리기        
         xpos = 0
         ypos = 60
         adj = 0
         self.brickrect = []
-        for i in range (0, 52):           
+        for i in range (0, 52):#벽돌 1개씩 52번 배치           
             if xpos > width:
                 if adj == 0:
                     adj = self.bricklength / 2
@@ -217,7 +217,7 @@ class Wall():
                 xpos = -adj
                 ypos += self.brickheight
                 
-            self.brickrect.append(self.brick.get_rect())    
+            self.brickrect.append(self.fbrick.get_rect())    
             self.brickrect[i] = self.brickrect[i].move(xpos, ypos)
             xpos = xpos + self.bricklength
 
